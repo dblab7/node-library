@@ -1,0 +1,314 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a responsive product landing page.">
+
+    <title>LIBRARY</title>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+   <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+
+    <!--<![endif]-->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="../css/layouts/index.css">
+    <link rel="stylesheet" href="../css/colorbox.css">
+    <!--<![endif]-->
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="jquery.colorbox.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/httpRequest.js"></script>
+    <script type="text/javascript">
+    var count = 0;
+      $(document).ready(function () {
+        $('#login_link').colorbox({
+          inline:true,
+          width:600,
+        });
+    
+        $('#regist_link').colorbox({
+          inline:true,
+          width:550,
+          });
+          document.getElementById('join').onsubmit = function () {
+          var pass =  document.getElementById('r_password').value;
+          var passCheck = document.getElementById('r_confirm_password').value;
+          if (pass == passCheck) {
+          } else {
+            alert('비밀번호가 서로 다릅니다');
+            return false;
+          }
+
+        };
+        document.getElementById('f_request').onsubmit = function () {
+        var borrowChk =  document.getElementById('borrowChk').innerHTML;
+        if(borrowChk == "대출불가능") {
+          alert('대출중인 책입니다.');
+          return false;
+        } else { }
+        };
+        var dp = "<%= dp %>";
+        if(Number(dp) == 1) {
+          showDiv('main-content');
+          location.href="#a_result";
+        } else {
+          hideDiv('main-content');
+        }
+        
+      });
+
+    </script>
+<!--    <script type="text/javascript">
+      window.onload() = function () {
+        document.getElementById('join').onsubmit = function () {
+          var pass =  document.getElementById('r_password').value;
+          var passCheck = document.getElementById('r_confirm_password').value;
+          if (pass == passCheck) {
+            alert('성공');
+          } else {
+            alert('다시 입력해주세요');
+            return false;
+          }
+        };
+      };
+    </script>-->
+  </head>
+  <body>
+
+    <div class="header">
+      <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <a class="pure-menu-heading" href="/index">LIBRARY</a>
+        <ul class="pure-menu-list">
+          
+          <% if(user_id) {%>
+          <li class="pure-menu-item" id="hi"><a id="hi" style="color:white;"><%= user_name %> 님 환영합니다 !</a></li>
+          <li class="pure-menu-item" ></li>
+          <li class="pure-menu-item"><a href="/index" class="pure-menu-link">홈</a></li> 
+          <li class="pure-menu-item"><a href="/mypage" id="mypage_link" class="pure-menu-link">마이페이지</a></li>
+          <li class="pure-menu-item" id="logout_href" ><a href="/logout" id="logout_link" class="pure-menu-link">로그아웃</a></li>
+          <% } else { %>
+          <li class="pure-menu-item"><a href="/index" class="pure-menu-link">홈</a></li>
+          <li class="pure-menu-item"><a href="#regist" id="regist_link" class="pure-menu-link">회원가입</a></li>
+          <li class="pure-menu-item" id="login_href" ><a href="#login" id="login_link" class="pure-menu-link">로그인</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="splash-container" id="main-image" >
+      <!--<div class="splash"></div>-->
+    </div>
+    <div class="content-wrapper">
+      <div class="content is-center" id="main-content" style="display:none">
+        <a id="a_result"></a>
+        <h2 class="content-head is-center">검색 결과</h2>
+        <a id="s_button" class="button-xsmall pure-button is-right" href="#s_result">검색하기</a>
+        <div class="pure-g">
+            <!--<div class="ribbon l-box-lrg pure-g">-->
+          <div class="pure-u-1 pure-u-md-1-24">
+          </div>
+          <div class="pure-u-1 pure-u-md-22-24" id="result" style="display:block" >
+              <table width='100%' class="pure-table pure-table-horizontal is-center" style="table-layout-fixed;color:#5C6262">
+                <thead id="r_thead">
+                  <tr>
+                    <th>번호</th>
+                    <th>책번호</th>
+                    <th>구분</th>
+                    <th>제목</th>
+                    <th>저자</th>
+                    <th>출판사</th>
+                    <th>대출여부</th>
+                    <th>대출신청</th>
+                  </tr>
+                </thead>
+                <% data.forEach(function (item, index) {%>
+                <% if((index%2) == 1) {%>
+                <tr class="pure-table-odd">
+                  <% } else { %>
+                  <tr>
+                    <% } %>
+                  <% var str = "f_request" + index; %>
+                 <form method="post" action="/check" id="f_request">
+                  <td><%= index+1 %></td>
+                  <td id="tb_num"><%= item.B_NUM %></td>
+                  <td><%= item.B_KIND %></td>
+                  <td><%= item.B_NAME %></td>
+                  <td><%= item.AUTHOR %></td>
+                  <td><%= item.PUBLISHER %></td>
+                  <td id="borrowChk"><%= item.ISBORROW %></td>
+                  <td>
+                    <button type="submit" class="pure-button button-small">대출신청</button>
+                    <input type="hidden" id="b_num" name="b_num" value="<%= item.B_NUM %>" />
+                    <input type="hidden" name="ischeck" value="<%= index %>"/> 
+                  </td>
+                </tr>
+                <tr >
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+
+                 </form>
+                <% }); %>
+                  
+             </table>
+         
+          </div>
+          <div class="pure-u-1 pure-u-md-1-24">
+          </div>
+          <!--</div>-->
+
+        </div>
+    </div>
+      <div class="ribbon l-box-lrg  is-center" id="s_result">
+        <form class="pure-form" method="post" action="/result">
+          <fieldset>
+            <select id="option" name="s_option" class="pure-input-1-5" style="color:#5C6262">
+              <option value="5">전체</option>
+              <option value="1">제목</option>
+              <option value="2">저자</option>
+              <option value="3">출판사</option>
+              <option value="4">분류</option>
+            </select>
+            <input type="text" name="s_content" class="pure-input-2-3" style="color:#5C6262" />
+            <input type="hidden" name="s_display" value="1" />
+            <button type="submit" class="pure-button pure-button-primary">Search</button>
+          </fieldset>
+        </form>
+      </div>
+      
+    <!--<div class="ribbon l-box-lrg pure-g">
+        <div class="pure-u-1 pure-u-md-1-4">
+    </div>
+      <div class="pure-u-1 pure-u-md-18-24" id="result" style="display:block">
+        <form method="post" action="/check" id="f_request">
+        <table width="700" class="pure-table pure-table-horizontal is-center" style="table-layout-fixed;">
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>구분</th>
+              <th>제목</th>
+              <th>저자</th>
+              <th>출판사</th>
+              <th>대출여부</th>
+              <th>대출신청</th>
+            </tr>
+          </thead>
+          <% data.forEach(function (item, index) {%>
+          <tr>
+            <td><%= item.B_NUM %></td>
+            <td><%= item.B_KIND %></td>
+            <td><%= item.B_NAME %></td>
+            <td><%= item.AUTHOR %></td>
+            <td><%= item.PUBLISHER %></td>
+            <td id="borrowChk"><%= item.ISBORROW %></td>
+            <td>
+              
+              <button type="submit" class="pure-button" id="b_request">대출신청</button>
+              <input type="hidden" name="b_num" value="<%= item.B_NUM %>" />
+              <input type="hidden" name="ischeck" value="1"/>
+            </td>
+          </tr>
+          <% }); %>
+        </table>
+      </form>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-4">
+      </div>
+    </div>-->
+      <div class="footer l-box is-center">
+        도서관 관리
+      </div>
+      <!-- login box 추가 -->
+    </div>
+    <div id="loginbox" style="display:none">
+      <div id="login">
+        <div class="l-box-lrg pure-u-1 ">
+          <form class="pure-form pure-form-stacked" method="post" action="/login">
+            <fieldset>
+              <legend><h3>로그인</h3></legend>
+              <label for="st_num">학번</label>
+              <input id="st_num" name="st_num" type="text" placeholder="학번">
+
+              <label for="password">비밀번호</label>
+              <input id="password" name="password" type="password" placeholder="비밀번호">
+
+              <button type="submit" class="pure-button pure-button-primary">Login</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="registbox" style="display:none;">
+      <div id="regist" >
+        <div class="l-box-lrg pure-u-1">
+          <form id="join" class="pure-form pure-form-stacked" method="post" action="/join">
+            <fieldset>
+              <legend><h3>회원가입</h3></legend>
+              <label for="r_st_num">학번</label>
+              <input id="r_st_num" name="r_st_num" type="text" placeholder="학번" />
+
+              <label for="r_name">이름</label>
+              <input id="r_name" name="r_name" type="text" placeholder="이름" />
+
+              <label for="r_password">비밀번호</label>
+              <input id="r_password" name="r_password" type="password" placeholder="비밀번호" />
+              <div id="checkPwd"></div>
+
+              <label for="r_confirm_password">비밀번호 확인</label>
+              <input id="r_confirm_password" name="r_confirm_password"  type="password" placeholder="비밀번호 확인"/>
+
+
+              <label for="r_dept">소속</label>
+              <select id="option" name="r_dept" class="pure-input-1-5">
+                <option>인문학부</option>
+                <option>종교학과</option>
+                <option>음악과</option>
+                <option>사회과학부</option> 
+                <option>경영학부</option> 
+                <option>법정경학부</option> 
+                <option>특수교육과</option> 
+                <option>영미언어문화학부</option>
+                <option>동아시아언어문화학부</option> 
+                <option>프랑스어문화학과</option> 
+                <option>국제학부</option>
+                <option>자연과학부</option> 
+                <option>생명환경학부</option> 
+                <option>생활과학부</option> 
+                <option>컴퓨터정보공학부</option> 
+                <option>정보통신전자공학부</option>
+                <option>미디어기술콘텐츠학과</option>
+              </select>
+
+              <label for="r_job">직책</label>
+              <select id="option" name="r_job" class="pure-input-1-5">        
+              <% data.forEach(function (item, index) {%>
+              <option value="<%= item.J_NUM %>"><%= item.J_NAME %></option>
+              <% }); %> 
+               </select>
+               <br/><br/>
+              <button type="submit" class="pure-button pure-button-primary">회원가입</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

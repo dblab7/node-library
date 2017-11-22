@@ -1,0 +1,266 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Showcases a horizontal menu that hides at
+ small window widths, and which scrolls when revealed.">
+    <title>관리자페이지 - 대출 승인</title>
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    
+
+</head>
+<body>
+<style>
+.custom-menu-wrapper {
+    background-color: #808080;
+    margin-bottom: 2.5em;
+    white-space: nowrap;
+    position: relative;
+}
+
+.custom-menu {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+}
+
+.custom-menu .pure-menu-link,
+.custom-menu .pure-menu-heading {
+    color: white;
+}
+
+.custom-menu .pure-menu-link:hover,
+.custom-menu .pure-menu-heading:hover {
+    background-color: transparent;
+}
+
+.custom-menu-top {
+    position: relative;
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+
+.custom-menu-brand {
+    display: block;
+    text-align: center;
+    position: relative;
+}
+
+.custom-menu-toggle {
+    width: 44px;
+    height: 44px;
+    display: block;
+    position: absolute;
+    top: 3px;
+    right: 0;
+    display: none;
+}
+
+.custom-menu-toggle .bar {
+    background-color: white;
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 100px;
+    position: absolute;
+    top: 22px;
+    right: 12px;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.custom-menu-toggle .bar:first-child {
+    -webkit-transform: translateY(-6px);
+    -moz-transform: translateY(-6px);
+    -ms-transform: translateY(-6px);
+    transform: translateY(-6px);
+}
+
+.custom-menu-toggle.x .bar {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.custom-menu-toggle.x .bar:first-child {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.custom-menu-screen {
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s;
+    height: 3em;
+    width: 70em;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.custom-menu-tucked .custom-menu-screen {
+    -webkit-transform: translateY(-44px);
+    -moz-transform: translateY(-44px);
+    -ms-transform: translateY(-44px);
+    transform: translateY(-44px);
+}
+
+@media (max-width: 62em) {
+
+    .custom-menu {
+        display: block;
+    }
+
+    .custom-menu-toggle {
+        display: block;
+        display: none\9;
+    }
+
+    .custom-menu-bottom {
+        position: absolute;
+        width: 100%;
+        border-top: 1px solid #eee;
+        background-color: #808080\9;
+        z-index: 100;
+    }
+
+    .custom-menu-bottom .pure-menu-link {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+    .custom-menu-bottom.custom-menu-tucked .pure-menu-link {
+        -webkit-transform: translateX(-140px);
+        -moz-transform: translateX(-140px);
+        -ms-transform: translateX(-140px);
+        transform: translateX(-140px);
+        opacity: 0;
+        opacity: 1\9;
+    }
+
+    .pure-menu-horizontal.custom-menu-tucked {
+        z-index: -1;
+        top: 45px;
+        position: absolute;
+        overflow: hidden;
+    }
+
+}
+</style>
+<div class="custom-menu-wrapper">
+    <div class="pure-menu custom-menu custom-menu-top">
+        <a href="/admin/login/" class="pure-menu-heading custom-menu-brand">관리자 페이지</a>
+        <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+    </div>
+    <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked" id="tuckedMenu">
+        <div class="custom-menu-screen"></div>
+        <ul class="pure-menu-list">
+             <li class="pure-menu-item"><a href="/admin/member/" class="pure-menu-link">회원관리</a></li>
+            <li class="pure-menu-item"><a href="/admin/book/" class="pure-menu-link">책 관리</a></li>
+            <li class="pure-menu-item"><a href="/admin/category/" class="pure-menu-link">분류 관리</a></li>
+            <li class="pure-menu-item"><a href="/admin/borrow/" class="pure-menu-link">대출 관리</a></li>
+            <li class="pure-menu-item"><a href="/admin/confirm/" class="pure-menu-link">대출 승인</a></li>
+            <li class="pure-menu-item"><a href="/admin/logout/" class="pure-menu-link">로그아웃</a></li>
+        </ul>
+    </div>
+</div>
+<script>
+(function (window, document) {
+document.getElementById('toggle').addEventListener('click', function (e) {
+    document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+    document.getElementById('toggle').classList.toggle('x');
+});
+})(this, this.document);
+</script>
+<style>
+.main {
+    padding: 2em;
+    color: black;
+}
+</style>
+<div id = "memberlist">
+
+
+  <h1> 대출 요청 리스트</h1>
+  <!--<a class="pure-button pure-button-primary" href="/admin/member/insert">회원 추가</a>-->
+  <hr />
+  <form class="pure-form" method="post" action="/admin/confirm/search">
+          <fieldset>
+            <select id="option" name="s_option" class="pure-input-1-5">
+              <option value="1">전체</option>
+              <option value="2">학번</option>
+              <option value="3">이름</option>
+              <option value="4">부서</option>
+              <option value="5">책번호</option>
+              <option value="6">책제목</option>
+              <option value="7">저자</option>
+              <option value="8">출판사</option>
+            </select>
+            <input type="text" name="s_content" class="pure-input-rounded" />
+            <button type="submit" class="pure-button pure-button-primary" style="border-radius: 4px;">Search</button>
+          </fieldset>
+    </form>
+  <table width='90%' class="pure-table" style="text-align:center;">
+    <thead  style="text-align:center;">
+      <tr>
+        <th>번호</th>
+        <th>학번</th>
+        <th>이름</th>
+        <th>부서</th>
+        <th>직업</th>
+        <th>책종류</th>
+        <th>책번호</th>
+        <th>책제목</th>
+        <th>저자</th>
+        <th>출판사</th>
+        <th>삭제</th>
+        <th>승인</th>
+      </tr>
+    </thead>
+      <% data.forEach(function (item, index) {%>
+      <% if((index%2) == 1) {%>
+                <tr class="pure-table-odd">
+                  <% } else { %>
+                  <tr>
+                    <% } %>
+        <td><%= index+1 %></td>
+        <td><%= item.M_NUM %></td>
+        <td><%= item.M_NAME %></td>
+        <td><%= item.DEPT %></td>
+        <td><%= item.JOB %></td>
+        <td><%= item.B_KIND %></td>
+        <td><%= item.B_NUM %></td>
+        <td><%= item.B_NAME %></td>
+        <td><%= item.AUTHOR %></td>
+        <td><%= item.PUBLISHER %></td>
+        <td><a href="/admin/confirm/delete/<%= item.B_NUM %>">삭제</a></td>
+        <form method="post" action="/admin/confirm/confirm">
+        <td><button type="submit" class="pure-button">승인</button> </td>
+        <input type="hidden" name="job" value="<%= item.JOB %>">
+        <input type="hidden" name="b_num" value="<%= item.B_NUM %>">
+        <input type="hidden" name="m_num" value="<%= item.M_NUM %>">
+    </form>
+      </tr>
+      <% }); %>
+  </table>
+
+
+</div>
+</body>
+</html>

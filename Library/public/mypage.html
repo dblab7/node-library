@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Showcases a horizontal menu that hides at
+ small window widths, and which scrolls when revealed.">
+    <title>MyPage</title>
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+ <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../js/common.js"></script>
+     <script type="text/javascript">
+     $(document).ready(function () {
+     document.getElementById('f_extend').onsubmit = function () {
+          var returnChk =  document.getElementById('t_return').innerHTML;
+          
+           if(returnChk == "반납완료") {
+                 alert('반납완료입니다.');
+                return false;
+              } else {
+                
+              }
+      };
+  });
+    </script>
+</head>
+<body>
+<style>
+.custom-menu-wrapper {
+    background-color: #2d3e50;
+    margin-bottom: 2.5em;
+    white-space: nowrap;
+    position: relative;
+}
+
+.custom-menu {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+}
+
+.custom-menu .pure-menu-link,
+.custom-menu .pure-menu-heading {
+    color: white;
+}
+
+.custom-menu .pure-menu-link:hover,
+.custom-menu .pure-menu-heading:hover {
+    background-color: transparent;
+}
+
+.custom-menu-top {
+    position: relative;
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+
+.custom-menu-brand {
+    display: block;
+    text-align: center;
+    position: relative;
+}
+
+.custom-menu-toggle {
+    width: 44px;
+    height: 44px;
+    display: block;
+    position: absolute;
+    top: 3px;
+    right: 0;
+    display: none;
+}
+
+.custom-menu-toggle .bar {
+    background-color: white;
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 100px;
+    position: absolute;
+    top: 22px;
+    right: 12px;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.custom-menu-toggle .bar:first-child {
+    -webkit-transform: translateY(-6px);
+    -moz-transform: translateY(-6px);
+    -ms-transform: translateY(-6px);
+    transform: translateY(-6px);
+}
+
+.custom-menu-toggle.x .bar {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.custom-menu-toggle.x .bar:first-child {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.custom-menu-screen {
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s;
+    height: 3em;
+    width: 70em;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.custom-menu-tucked .custom-menu-screen {
+    -webkit-transform: translateY(-44px);
+    -moz-transform: translateY(-44px);
+    -ms-transform: translateY(-44px);
+    transform: translateY(-44px);
+}
+
+@media (max-width: 62em) {
+
+    .custom-menu {
+        display: block;
+    }
+
+    .custom-menu-toggle {
+        display: block;
+        display: none\9;
+    }
+
+    .custom-menu-bottom {
+        position: absolute;
+        width: 100%;
+        border-top: 1px solid #eee;
+        background-color: #808080\9;
+        z-index: 100;
+    }
+
+    .custom-menu-bottom .pure-menu-link {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+    .custom-menu-bottom.custom-menu-tucked .pure-menu-link {
+        -webkit-transform: translateX(-140px);
+        -moz-transform: translateX(-140px);
+        -ms-transform: translateX(-140px);
+        transform: translateX(-140px);
+        opacity: 0;
+        opacity: 1\9;
+    }
+
+    .pure-menu-horizontal.custom-menu-tucked {
+        z-index: -1;
+        top: 45px;
+        position: absolute;
+        overflow: hidden;
+    }
+
+}
+</style>
+<div class="custom-menu-wrapper">
+    <div class="pure-menu custom-menu custom-menu-top">
+        <a href="/index" class="pure-menu-heading custom-menu-brand">홈</a>
+        <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+    </div>
+    <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked" id="tuckedMenu">
+        <div class="custom-menu-screen"></div>
+        <ul class="pure-menu-list">
+      
+            <li class="pure-menu-item"><a href="/mypage" class="pure-menu-link">마이페이지</a></li>
+            <!--<li class="pure-menu-item"><a href="/admin/category/" class="pure-menu-link">분류 관리</a></li>
+            <li class="pure-menu-item"><a href="/admin/borrow/" class="pure-menu-link">대출 관리</a></li>
+            <li class="pure-menu-item"><a href="/admin/confirm/" class="pure-menu-link">대출 승인</a></li>
+            <li class="pure-menu-item"><a href="/admin/logout/" class="pure-menu-link">로그아웃</a></li>-->
+        </ul>
+    </div>
+</div>
+<script>
+(function (window, document) {
+document.getElementById('toggle').addEventListener('click', function (e) {
+    document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+    document.getElementById('toggle').classList.toggle('x');
+});
+})(this, this.document);
+</script>
+<style>
+.main {
+    padding: 2em;
+    color: black;
+}
+</style>
+<div id = "mylist">
+  <h1> 내 대출 정보 </h1>
+  <!--<a class="pure-button pure-button-primary" href="/admin/member/insert">회원 추가</a>-->
+  <hr />
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-1-24">
+          </div>
+          <div class="pure-u-1 pure-u-md-22-24" id="result" >
+  <table width="80%" class="pure-table pure-table-horizontal">
+    <thead>
+      <tr>
+        <th>번호</th>
+        <th>책종류</th>
+        <th>책번호</th>
+        <th>책제목</th>
+        <th>저자</th>
+        <th>출판사</th>
+        <th>대출일</th>
+        <th>반납일</th>
+        <th>반납상태</th>
+        <th>연장</th>      
+      </tr>
+    </thead>
+      <% data.forEach(function (item, index) {%>
+      <tr>
+        <td><%= index+1 %></td>
+        <td><%= item.B_KIND %></td>
+        <td><%= item.B_NUM %></td>
+        <td><%= item.B_NAME %></td>
+        <td><%= item.AUTHOR %></td>
+        <td><%= item.PUBLISHER %></td>
+        <td><%= item.B_DATE %></td>
+        <td><%= item.R_DATE %></td>
+        <td id="t_return"><%= item.ISRETURN %></td>
+      <form method="post" id="f_extend">
+        <td><button type="submit" class="pure-button" id="extend" style="display:block;">연장</button> </td>
+      
+        <input type="hidden" name="b_num" value="<%= item.B_NUM %>">
+        <input type="hidden" name="m_num" value="<%= item.M_NUM %>">
+        <input type="hidden" name="idx" value="<%= item.IDX %>">
+      </form>
+      </tr>
+      <% }); %>
+  </table>
+</div>
+<div class="pure-u-1 pure-u-md-1-24">
+          </div>
+</div>
+</div>
+</body>
+</html>
